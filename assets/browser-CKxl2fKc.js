@@ -1,1 +1,0 @@
-import{b as e,c as t}from"./index-Cwx3EUd-.js";export{t as worker,e as workerOptions};
