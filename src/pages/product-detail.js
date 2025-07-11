@@ -1,7 +1,7 @@
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Layouy } from "../components/Layout";
-import { ProductDetail } from "../components/ProductDetail";
+import { ProductDetail } from "../components/ProductDetail/ProductDetail";
 import { Component } from "../core/Component";
 import { cartStore } from "../store/cart";
 import { createProductDetailStore } from "../store/product-detail";
