@@ -410,9 +410,22 @@
         </svg>
       </button>
       <h1 class="text-lg font-bold text-gray-900">상품 상세</h1>
-    </div>`}},U=class extends m{renderContainer(){let{categories:e,category1:t,category2:n}=this.props.productsStore;return!t&&!n?h`<div ${this.dataAttribute.attribute} class="space-y-2">${this.#renderAllCategories()}</div>`:h`<div ${this.dataAttribute.attribute} class="space-y-2">
+    </div>`}},U=class extends m{renderContainer(){let{categories:e,category1:t,category2:n}=this.props.productsStore;return!t&&!n?h`<div ${this.dataAttribute.attribute} class="space-y-2">
+        ${this.#renderAllCategories({isLoading:!e})}
+      </div>`:h`<div ${this.dataAttribute.attribute} class="space-y-2">
       ${this.renderBreadcrumb({category1:t,category2:n})} ${this.renderCategories({categories:e,category1:t,category2:n})}
-    </div>`}render(){this.$el.innerHTML=this.renderContainer()}setEvent(){super.setEvent(),this.addEvent(`click`,({target:{dataset:e}})=>{`category2`in e?this.props.productsStore.setCategories({category1:this.props.productsStore.category1,category2:e.category2}):`category1`in e?this.props.productsStore.setCategories({category1:e.category1,category2:``}):`breadcrumb`in e&&this.props.productsStore.resetCategories()})}#renderAllCategories(){return h`
+    </div>`}render(){this.$el.innerHTML=this.renderContainer()}setEvent(){super.setEvent(),this.addEvent(`click`,({target:{dataset:e}})=>{`category2`in e?this.props.productsStore.setCategories({category1:this.props.productsStore.category1,category2:e.category2}):`category1`in e?this.props.productsStore.setCategories({category1:e.category1,category2:``}):`breadcrumb`in e&&this.props.productsStore.resetCategories()})}#renderAllCategories({isLoading:e}){return e?h`
+        <div class="flex items-center gap-2">
+          <label class="text-sm text-gray-600">카테고리:</label>
+          <button data-breadcrumb="reset" class="text-xs hover:text-blue-800 hover:underline">전체</button>
+        </div>
+
+        <!-- 1depth 카테고리 -->
+
+        <div class="text-sm text-gray-500 italic">카테고리 로딩 중...</div>
+
+        <!-- 2depth 카테고리 -->
+      `:h`
       <div class="flex items-center gap-2">
         <label class="text-sm text-gray-600">카테고리:</label>
         <button data-breadcrumb="reset" class="text-xs hover:text-blue-800 hover:underline">전체</button>
