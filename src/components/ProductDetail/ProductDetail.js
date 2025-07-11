@@ -30,8 +30,13 @@ export class ProductDetail extends Component {
   render() {
     const {
       relatedProducts,
-      product: { image, title, description, rating, reviewCount, lprice, stock, productId },
+      product: { image, title, description, rating, reviewCount, lprice, stock, productId, isLoading },
     } = this.props.productDetailStore;
+
+    if (isLoading) {
+      this.$el.innerHTML = this.renderContainer();
+      return;
+    }
 
     this.$el.innerHTML = html`${this.props.breadcrumb}
       <div class="bg-white rounded-lg shadow-sm mb-6">
