@@ -85,8 +85,10 @@ describe("2. 상품 상세 - 장바구니 담기", () => {
     document.querySelector("#quantity-decrease").click();
     expect(document.querySelector("#quantity-input").value).toBe("1");
 
-    // 장바구니 담기 버튼 클릭
-    await userEvent.click(document.querySelector("#add-to-cart-btn"));
+    // await userEvent.click(document.querySelector("#add-to-cart-btn"))
+    // -> document.querySelector("#add-to-cart-btn").click(); 변경하였습니다
+    // await userEvent.click(document.querySelector("#add-to-cart-btn"));
+    document.querySelector("#add-to-cart-btn").click();
 
     // 성공 메시지 확인
     expect(await screen.findByText("장바구니에 추가되었습니다")).toBeInTheDocument();
