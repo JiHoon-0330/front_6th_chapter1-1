@@ -1,4 +1,5 @@
 import { createDataAttribute } from "../utils/data-attributes.js";
+import { ComponentEvents } from "./events.js";
 import { observable, observe } from "./observer.js";
 
 export class Component {
@@ -11,7 +12,9 @@ export class Component {
     this.props = props;
     this.id = `${this.constructor.name}-component-${crypto.randomUUID()}`;
     this.dataAttribute = createDataAttribute(this.id);
-    this.abortController = null;
+    this.componentEvents = new ComponentEvents(this.dataAttribute.selector);
+    this.setEvent();
+    console.log("setEvent");
   }
 
   /** 오버라이드 super 필수 */
@@ -19,7 +22,6 @@ export class Component {
     this.state = observable(this.initState());
     this.#disposeObserve = observe(this.id, () => {
       this.mounted();
-      this.setEvent();
       this.render();
     });
     this.#getComponentInstance().forEach((v) => v.setup());
@@ -35,20 +37,10 @@ export class Component {
   /** 상태변화시 렌더링용 */
   render() {}
 
-  /** 오버라이드 super 필수 */
-  setEvent() {
-    if (this.abortController) {
-      this.abortController.abort();
-    }
-    this.abortController = new AbortController();
-  }
+  setEvent() {}
 
-  addEvent(eventType, callback) {
-    try {
-      this.$el.addEventListener(eventType, callback, this.abortController);
-    } catch (error) {
-      console.warn(error);
-    }
+  addEvent(eventName, selector, callback) {
+    this.componentEvents.addEvent({ eventName, selector, callback });
   }
 
   /** 오버라이드 super 필수 */
@@ -65,6 +57,7 @@ export class Component {
     if (this.#disposeObserve) {
       this.#disposeObserve();
     }
+    this.componentEvents.dispose();
     this.#getComponentInstance().forEach((v) => v.dispose());
   }
 

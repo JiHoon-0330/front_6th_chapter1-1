@@ -20,18 +20,17 @@ export class Breadcrumb extends Component {
   }
 
   setEvent() {
-    super.setEvent();
-    this.addEvent("click", ({ target: { dataset } }) => {
-      if ("category2" in dataset) {
-        this.props.productsStore.setCategories({
-          category1: this.props.productsStore.category1,
-          category2: dataset.category2,
-        });
-      } else if ("category1" in dataset) {
-        this.props.productsStore.setCategories({ category1: dataset.category1, category2: "" });
-      } else if ("breadcrumb" in dataset) {
-        this.props.productsStore.resetCategories();
-      }
+    this.addEvent("click", "[data-category1]", (_, $closest) => {
+      this.props.productsStore.setCategories({ category1: $closest.dataset.category1, category2: "" });
+    });
+    this.addEvent("click", "[data-category2]", (_, $closest) => {
+      this.props.productsStore.setCategories({
+        category1: this.props.productsStore.category1,
+        category2: $closest.dataset.category2,
+      });
+    });
+    this.addEvent("click", "[data-breadcrumb]", () => {
+      this.props.productsStore.resetCategories();
     });
   }
 
