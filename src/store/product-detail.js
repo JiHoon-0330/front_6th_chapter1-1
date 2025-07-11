@@ -19,6 +19,7 @@ const defaultProduct = {
 
 const defaultData = {
   productId: "",
+  quantity: 1,
   product: defaultProduct,
   relatedProducts: [],
 };
@@ -36,6 +37,9 @@ export const createProductDetailStore = () => {
       for (const [key, value] of Object.entries(defaultData)) {
         productDetailStore[key] = value;
       }
+    },
+    setQuantity(quantity) {
+      productDetailStore.quantity = quantity;
     },
     async loadProduct() {
       const data = await getProduct(productDetailStore.productId);
