@@ -26,7 +26,8 @@
 		"prepare": "husky",
 		"deploy": "gh-pages -d build",
 		"build:prod": "NODE_ENV=production vite build",
-		"preview:prod": "NODE_ENV=production vite preview"
+		"preview:prod": "NODE_ENV=production vite preview",
+		"test:all": "pnpm test:hard:basic && pnpm test:hard:advanced && pnpm test:easy:basic && pnpm test:easy:advanced"
 	},
 	"lint-staged": {
 		"*.{js,jsx,ts,tsx}": [

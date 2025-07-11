@@ -2,14 +2,12 @@ import { Component } from "../core/Component";
 import { html } from "../utils/html";
 
 export class Search extends Component {
-  inputId = "search-input";
-
   renderContainer() {
     return html` <div ${this.dataAttribute.attribute} class="mb-4">
       <div class="relative">
         <input
           type="text"
-          id="${this.inputId}"
+          id="search-input"
           placeholder="상품명을 검색해보세요..."
           value="${this.props.productsStore.search}"
           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg
@@ -30,12 +28,9 @@ export class Search extends Component {
   }
 
   setEvent() {
-    super.setEvent();
-    this.addEvent("keydown", (e) => {
-      if (e.target.closest(`#${this.inputId}`)) {
-        if (e.key === "Enter") {
-          this.props.productsStore.setSearch(e.target.value);
-        }
+    this.addEvent("keydown", "#search-input", (e) => {
+      if (e.key === "Enter") {
+        this.props.productsStore.setSearch(e.target.value);
       }
     });
   }

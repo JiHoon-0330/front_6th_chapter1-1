@@ -23,73 +23,57 @@ export class CartModal extends Component {
   }
 
   setEvent() {
-    super.setEvent();
-    this.addEvent("click", (e) => {
-      const { target } = e;
-
-      if (target.closest("#cart-modal-close-btn") || target.closest(".cart-modal-overlay")) {
-        cartStore.closeModal();
-        return;
-      }
-
-      const $removeBtn = target.closest(".cart-item-remove-btn");
-      if ($removeBtn) {
-        const productId = $removeBtn.dataset.productId;
-        cartStore.removeItem(productId);
-        return;
-      }
-
-      const $removeSelectedBtn = target.closest("#cart-modal-remove-selected-btn");
-      if ($removeSelectedBtn) {
-        cartStore.removeSelectedItems();
-        return;
-      }
-
-      const $cartItemCheckbox = target.closest(".cart-item-checkbox");
-      if ($cartItemCheckbox) {
-        const productId = $cartItemCheckbox.dataset.productId;
-        cartStore.toggleSelectedItem(productId);
-        return;
-      }
-
-      const $selectAllCheckbox = target.closest("#cart-modal-select-all-checkbox");
-      if ($selectAllCheckbox) {
-        const isChecked = $selectAllCheckbox.checked;
-        cartStore.toggleSelectAll(isChecked);
-        return;
-      }
-
-      const $clearCartBtn = target.closest("#cart-modal-clear-cart-btn");
-      if ($clearCartBtn) {
-        cartStore.clearCart();
-        return;
-      }
-
-      const $checkoutBtn = target.closest("#cart-modal-checkout-btn");
-      if ($checkoutBtn) {
-        cartStore.checkout();
-        return;
-      }
-
-      const $quantityIncreaseBtn = target.closest(".quantity-increase-btn");
-      const $quantityDecreaseBtn = target.closest(".quantity-decrease-btn");
-
-      if ($quantityIncreaseBtn || $quantityDecreaseBtn) {
-        const productId = $quantityIncreaseBtn?.dataset.productId || $quantityDecreaseBtn?.dataset.productId;
-        const $quantityInput = this.$el.querySelector(`.quantity-input[data-product-id="${productId}"]`);
-        const value = $quantityIncreaseBtn ? +1 : -1;
-        const nextValue = Math.max($quantityInput.valueAsNumber + value, 1);
-        $quantityInput.value = nextValue;
-        cartStore.updateItem(productId, "quantity", nextValue);
-        return;
-      }
+    this.addEvent("click", "#cart-modal-close-btn", () => {
+      cartStore.closeModal();
     });
+
+    this.addEvent("click", ".cart-item-remove-btn", (_, { dataset: { productId } }) => {
+      cartStore.removeItem(productId);
+    });
+
+    this.addEvent("click", "#cart-modal-remove-selected-btn", () => {
+      cartStore.removeSelectedItems();
+    });
+
+    this.addEvent("click", ".cart-item-checkbox", (_, { dataset: { productId } }) => {
+      cartStore.toggleSelectedItem(productId);
+    });
+
+    this.addEvent("click", "#cart-modal-select-all-checkbox", (_, { checked }) => {
+      cartStore.toggleSelectAll(checked);
+    });
+
+    this.addEvent("click", "#cart-modal-clear-cart-btn", () => {
+      cartStore.clearCart();
+    });
+
+    this.addEvent("click", "#cart-modal-checkout-btn", () => {
+      cartStore.checkout();
+    });
+
+    this.addEvent("click", ".quantity-increase-btn", (_, { dataset: { productId } }) => {
+      const $quantityInput = this.$el.querySelector(`.quantity-input[data-product-id="${productId}"]`);
+      const nextValue = Math.max($quantityInput.valueAsNumber + 1, 1);
+      $quantityInput.value = nextValue;
+      cartStore.updateItem(productId, "quantity", nextValue);
+    });
+
+    this.addEvent("click", ".quantity-decrease-btn", (_, { dataset: { productId } }) => {
+      const $quantityInput = this.$el.querySelector(`.quantity-input[data-product-id="${productId}"]`);
+      const nextValue = Math.max($quantityInput.valueAsNumber - 1, 1);
+      $quantityInput.value = nextValue;
+      cartStore.updateItem(productId, "quantity", nextValue);
+    });
+
+    this.addEvent("click", ".cart-modal-overlay", () => {
+      cartStore.closeModal();
+    });
+
     document.addEventListener(
       "keydown",
       (e) => {
         if (e.key === "Escape") {
           cartStore.closeModal();
-          return;
         }
       },
       this.abortController,
@@ -160,10 +144,12 @@ export class CartModal extends Component {
                   <!-- 하단 액션 -->
                   <div class="sticky bottom-0 bg-white border-t border-gray-200 p-4">
                     <!-- 선택된 아이템 정보 -->
-                    <div class="flex justify-between items-center mb-3 text-sm">
-                      <span class="text-gray-600">선택한 상품 (${selectedCount}개)</span>
-                      <span class="font-medium">${priceFormat(selectedPrice)}원</span>
-                    </div>
+                    ${selectedCount > 0
+                      ? html`<div class="flex justify-between items-center mb-3 text-sm">
+                          <span class="text-gray-600">선택한 상품 (${selectedCount}개)</span>
+                          <span class="font-medium">${priceFormat(selectedPrice)}원</span>
+                        </div>`
+                      : ""}
                     <!-- 총 금액 -->
                     <div class="flex justify-between items-center mb-4">
                       <span class="text-lg font-bold text-gray-900">총 금액</span>

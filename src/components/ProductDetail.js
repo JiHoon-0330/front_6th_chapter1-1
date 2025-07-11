@@ -59,71 +59,60 @@ export class ProductDetail extends Component {
   }
 
   setEvent() {
-    super.setEvent();
-    this.addEvent("click", (e) => {
-      const { target } = e;
-      const goToProductsBtn = target.closest(".go-to-product-list");
-      if (goToProductsBtn) {
-        router.push({ pathname: "/" });
-        return;
-      }
-
-      const $relatedProductCard = target.closest(".related-product-card");
-      if ($relatedProductCard) {
-        router.push({ pathname: `/product/${$relatedProductCard.dataset.productId}` });
-        return;
-      }
-
-      const $category1 = target.closest("[data-category1]");
-      if ($category1) {
-        const { category1, category2 } = this.props.productDetailStore.product;
-        router.push({
-          pathname: "/",
-          params: { category1, category2 },
-        });
-        return;
-      }
-
-      const $category2 = target.closest("[data-category2]");
-      if ($category2) {
-        const { category1, category2 } = this.props.productDetailStore.product;
-        router.push({
-          pathname: "/",
-          params: { category1, category2 },
-        });
-        return;
-      }
-
-      const $quantityDecrease = target.closest("#quantity-decrease");
-      const $quantityIncrease = target.closest("#quantity-increase");
-      const $addToCartBtn = target.closest("#add-to-cart-btn");
-      const $quantityInput = this.$el.querySelector("#quantity-input");
-      const quantity = $quantityInput.valueAsNumber;
-
-      if ($quantityDecrease) {
-        $quantityInput.value = this.#clamp(quantity - 1, $quantityInput.max);
-      } else if ($quantityIncrease) {
-        $quantityInput.value = this.#clamp(quantity + 1, $quantityInput.max);
-      } else if ($addToCartBtn) {
-        const { image, title, lprice, productId } = this.props.productDetailStore.product;
-
-        cartStore.addItem({
-          productId,
-          lprice,
-          image,
-          title,
-          quantity,
-          selected: true,
-        });
-      }
+    this.addEvent("click", ".go-to-product-list", () => {
+      router.push({ pathname: "/" });
     });
 
-    this.addEvent("change", (e) => {
-      const $quantityInput = e.target.closest("#quantity-input");
-      if ($quantityInput) {
-        const quantity = $quantityInput.valueAsNumber;
-        $quantityInput.value = this.#clamp(quantity, $quantityInput.max);
-      }
+    this.addEvent("click", ".related-product-card", (_, { dataset: { productId } }) => {
+      router.push({ pathname: `/product/${productId}` });
+    });
+
+    this.addEvent("click", "[data-category1]", () => {
+      const { category1, category2 } = this.props.productDetailStore.product;
+      router.push({
+        pathname: "/",
+        params: { category1, category2 },
+      });
+    });
+
+    this.addEvent("click", "[data-category2]", () => {
+      const { category1, category2 } = this.props.productDetailStore.product;
+      router.push({
+        pathname: "/",
+        params: { category1, category2 },
+      });
+    });
+
+    this.addEvent("click", "#quantity-decrease", () => {
+      const $quantityInput = this.$el.querySelector("#quantity-input");
+      const quantity = $quantityInput.valueAsNumber;
+      $quantityInput.value = this.#clamp(quantity - 1, $quantityInput.max);
+    });
+
+    this.addEvent("click", "#quantity-increase", () => {
+      const $quantityInput = this.$el.querySelector("#quantity-input");
+      const quantity = $quantityInput.valueAsNumber;
+      $quantityInput.value = this.#clamp(quantity + 1, $quantityInput.max);
+    });
+
+    this.addEvent("click", "#add-to-cart-btn", () => {
+      const $quantityInput = this.$el.querySelector("#quantity-input");
+      const quantity = $quantityInput.valueAsNumber;
+      const { image, title, lprice, productId } = this.props.productDetailStore.product;
+
+      cartStore.addItem({
+        productId,
+        lprice,
+        image,
+        title,
+        quantity,
+        selected: true,
+      });
+    });
+
+    this.addEvent("change", "#quantity-input", (_, $closest) => {
+      const quantity = $closest.valueAsNumber;
+      $closest.value = this.#clamp(quantity, $closest.max);
     });
   }
 

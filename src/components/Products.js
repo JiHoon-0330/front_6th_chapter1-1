@@ -9,12 +9,6 @@ export class Products extends Component {
   #moreStatusId = "more-status";
   #intersectionObserver = null;
   #producrCardSkeletonRepeatCount = 4;
-  #firstRenderData = {
-    total: null,
-    products: [],
-    limit: null,
-    page: null,
-  };
 
   renderContainer() {
     const { isLoading, hasNext } = this.props.productsStore;
@@ -33,15 +27,6 @@ export class Products extends Component {
         <div class="grid grid-cols-2 gap-4 mb-6" id="products-grid"></div>
         ${this.#moreStatus({ isLoading, hasNext })}`;
     } else if (page === 1) {
-      if (
-        this.#firstRenderData.total === total &&
-        this.#firstRenderData.limit === limit &&
-        this.#firstRenderData.page === page &&
-        JSON.stringify(this.#firstRenderData.products) === JSON.stringify(products)
-      ) {
-        return;
-      }
-      this.#firstRenderData = { total, limit, page, products };
       const filledProducts = this.#ensureProductsCount({ total, limit, page, products });
 
       this.#renderFirstPage({ total, currentPageProducts: filledProducts, isLoading, hasNext });
@@ -54,27 +39,24 @@ export class Products extends Component {
   }
 
   setEvent() {
-    super.setEvent();
-    this.addEvent("click", ({ target }) => {
-      const $addCartBtn = target.closest("button[data-product-id]");
-      if ($addCartBtn) {
-        const { productId } = $addCartBtn.dataset;
-        const item = this.props.productsStore.data.products.find((p) => p.productId === productId);
+    this.addEvent("click", "button[data-product-id]", (_, $closest) => {
+      const { productId } = $closest.dataset;
 
-        if (!item) {
-          throw new Error(`${productId} is not in products`);
-        }
-        cartStore.addItem(item);
-        return;
+      const item = this.props.productsStore.data.products.find((p) => p.productId === productId);
+
+      if (!item) {
+        throw new Error(`${productId} is not in products`);
       }
 
-      const $productCard = target.closest("div[data-product-id]");
-      if ($productCard) {
-        const { productId } = $productCard.dataset;
-        router.push({
-          pathname: `/product/${productId}`,
-        });
-      }
+      cartStore.addItem(item);
+    });
+
+    this.addEvent("click", "div[data-product-id]", (_, $closest) => {
+      const { productId } = $closest.dataset;
+
+      router.push({
+        pathname: `/product/${productId}`,
+      });
     });
   }
 

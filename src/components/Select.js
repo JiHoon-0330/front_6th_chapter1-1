@@ -27,13 +27,10 @@ class SelectFilter extends Component {
   }
 
   setEvent() {
-    super.setEvent();
-    this.addEvent("change", (e) => {
-      if (e.target.closest("select")) {
-        const newValue = e.target.value;
-        e.target.value = this.props.initValue();
-        this.props.setValue(newValue);
-      }
+    this.addEvent("change", "select", (e) => {
+      const newValue = e.target.value;
+      e.target.value = this.props.initValue();
+      this.props.setValue(newValue);
     });
   }
 }

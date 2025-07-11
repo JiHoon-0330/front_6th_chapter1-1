@@ -59,12 +59,8 @@ export class Header extends Component {
   }
 
   setEvent() {
-    super.setEvent();
-    this.addEvent("click", (e) => {
-      const { target } = e;
-      if (target.closest("#cart-icon-btn")) {
-        cartStore.openModal();
-      }
+    this.addEvent("click", "#cart-icon-btn", () => {
+      cartStore.openModal();
     });
   }
 }
