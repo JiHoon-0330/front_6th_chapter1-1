@@ -289,7 +289,7 @@
           <p class="text-gray-600">상품 정보를 불러오는 중...</p>
         </div>
       </div>
-    </main>`}render(){let{relatedProducts:e,product:{category1:t,category2:n,image:r,title:i,description:a,rating:o,reviewCount:s,lprice:c,stock:l,productId:u}}=this.props.productDetailStore;this.$el.innerHTML=h`${this.#Breadcrumb({category1:t,category2:n})}
+    </main>`}render(){let{relatedProducts:e,product:{category1:t,category2:n,image:r,title:i,description:a,rating:o,reviewCount:s,lprice:c,stock:l,productId:u,isLoading:d}}=this.props.productDetailStore;if(d){this.$el.innerHTML=this.renderContainer();return}this.$el.innerHTML=h`${this.#Breadcrumb({category1:t,category2:n})}
       <div class="bg-white rounded-lg shadow-sm mb-6">
         <!-- 수량 선택 및 액션 -->
         <div class="border-t border-gray-200 p-4">
