@@ -1,8 +1,8 @@
-import { Filters } from "../components/Filters";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Layouy } from "../components/Layout";
-import { Products } from "../components/Products";
+import { Filters } from "../components/Products/Filters";
+import { Products } from "../components/Products/Products";
 import { Component } from "../core/Component";
 import { cartStore } from "../store/cart";
 import { createProductsStore } from "../store/products";

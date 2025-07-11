@@ -1,5 +1,5 @@
-import { Component } from "../core/Component";
-import { html } from "../utils/html";
+import { Component } from "../../core/Component";
+import { html } from "../../utils/html";
 
 class SelectFilter extends Component {
   renderContainer() {

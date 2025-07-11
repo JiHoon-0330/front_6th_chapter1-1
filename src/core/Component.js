@@ -14,7 +14,6 @@ export class Component {
     this.dataAttribute = createDataAttribute(this.id);
     this.componentEvents = new ComponentEvents(this.dataAttribute.selector);
     this.setEvent();
-    console.log("setEvent");
   }
 
   /** 오버라이드 super 필수 */

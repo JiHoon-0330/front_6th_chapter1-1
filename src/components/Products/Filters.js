@@ -1,5 +1,5 @@
-import { Component } from "../core/Component";
-import { html } from "../utils/html";
+import { Component } from "../../core/Component";
+import { html } from "../../utils/html";
 import { Breadcrumb } from "./Breadcrumb";
 import { Search } from "./Search";
 import { LimitSelect, SortSelect } from "./Select";
@@ -11,7 +11,7 @@ export class Filters extends Component {
   sortSelect = new SortSelect(this.props);
 
   renderContainer() {
-    return html` <div
+    return html`<div
       ${this.dataAttribute.attribute}
       class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-4"
     >

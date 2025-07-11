@@ -51,7 +51,6 @@ class Events {
 
           for (const { callback, selector } of handlers) {
             const $closest = e.target.closest(selector);
-            console.log($closest, selector, e.target);
 
             if ($closest) {
               callback(e, $closest);

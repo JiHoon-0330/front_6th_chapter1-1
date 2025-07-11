@@ -1,8 +1,8 @@
-import { Component } from "../core/Component";
-import { router } from "../core/router";
-import { cartStore } from "../store/cart";
-import { priceFormat } from "../utils/format";
-import { html } from "../utils/html";
+import { Component } from "../../core/Component";
+import { router } from "../../core/router";
+import { cartStore } from "../../store/cart";
+import { priceFormat } from "../../utils/format";
+import { html } from "../../utils/html";
 
 export class Products extends Component {
   #productsGridId = "products-grid";
