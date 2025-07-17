@@ -594,7 +594,7 @@
       <a href="/" data-link="">쇼핑몰</a>
     </h1>`}},ne=class extends m{renderContainer(){return h`<main ${this.dataAttribute.attribute} class="max-w-md mx-auto px-4 py-4">
       ${this.props.filters} ${this.props.products}
-    </main>`}};const re=()=>r(async()=>{let{worker:e,workerOptions:t}=await import(`./browser-EepaDAeu.js`);return{worker:e,workerOptions:t}},[]).then(({worker:e,workerOptions:t})=>e.start(t));function ie(){o.addPage(`/`,ee).addPage(`/product/:productId`,V).init({_404:g})}ae();function ae(){let e=`
+    </main>`}};const re=()=>r(async()=>{let{worker:e,workerOptions:t}=await import(`./browser-DK6whEil.js`);return{worker:e,workerOptions:t}},[]).then(({worker:e,workerOptions:t})=>e.start(t));function ie(){o.addPage(`/`,ee).addPage(`/product/:productId`,V).init({_404:g})}ae();function ae(){let e=`
     <div class="flex flex-col gap-2 items-center justify-center mx-auto" style="width: fit-content;">
       <div class="bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 max-w-sm">
         <div class="flex-shrink-0">
